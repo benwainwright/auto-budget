@@ -1,22 +1,43 @@
 {
-	"name": "auto-budget",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.27.4",
-		"svelte": "^4.0.5",
-		"svelte-check": "^3.6.0",
-		"tslib": "^2.4.1",
-		"typescript": "^5.0.0",
-		"vite": "^4.4.2"
-	},
-	"type": "module"
+  "name": "auto-budget",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "AWS_PROFILE=personal-account sst bind vite dev",
+    "deploy": "AWS_PROFILE=personal-account sst deploy",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "2.0.0",
+    "@sveltejs/kit": "1.27.4",
+    "sst": "2.36.1",
+    "svelte": "4.0.5",
+    "svelte-check": "3.6.0",
+    "svelte-kit-sst": "2.36.1",
+    "tslib": "2.4.1",
+    "typescript": "5.2.2",
+    "vite": "4.4.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "3.454.0",
+    "@aws-sdk/client-secrets-manager": "3.454.0",
+    "@otters/monzo": "1.0.1",
+    "@types/aws-lambda": "8.10.126",
+    "@types/jwk-to-pem": "2.0.3",
+    "aws-cdk": "2.110.0",
+    "aws-cdk-lib": "2.101.1",
+    "aws-lambda": "1.0.7",
+    "axios": "1.6.2",
+    "constructs": "10.2.69",
+    "jest-mock": "29.7.0",
+    "jest-mock-extended": "3.0.5",
+    "jsonwebtoken": "9.0.2",
+    "jwk-to-pem": "2.0.5",
+    "prettier": "3.1.0",
+    "prettier-plugin-svelte": "3.1.0"
+  }
 }
