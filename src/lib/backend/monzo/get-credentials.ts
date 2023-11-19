@@ -8,14 +8,14 @@ import { MonzoAPI, MonzoOAuthAPI } from "@otters/monzo";
 import { getAttributeValue } from "../../aws/get-attribute-value";
 import { getEnv } from "../../utils/get-env";
 import { getInitialApi } from "./get-initial-api";
-import { COGNITO } from "$lib/constants";
+import { COGNITO, ENV_VAR_NAMES } from "$lib/constants";
 
 export const getCredentials = async (
   username: string,
   oauth: MonzoOAuthAPI,
-  code?: string
+  code?: string,
 ) => {
-  const userPoolId = getEnv("USER_POOL_ID");
+  const userPoolId = getEnv(ENV_VAR_NAMES.CognitoUserPoolId);
 
   const cognito = new CognitoIdentityProviderClient({
     region: getEnv("AWS_REGION"),
@@ -25,34 +25,34 @@ export const getCredentials = async (
     new AdminGetUserCommand({
       UserPoolId: userPoolId,
       Username: username,
-    })
+    }),
   );
 
   const attributes = userResult.UserAttributes;
 
   const accessToken = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.accessToken}`
+    `custom:${COGNITO.customFields.accessToken}`,
   );
 
   const refreshToken = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.refreshToken}`
+    `custom:${COGNITO.customFields.refreshToken}`,
   );
 
   const expiresIn = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.expiresIn}`
+    `custom:${COGNITO.customFields.expiresIn}`,
   );
 
   const expiresAt = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.expiresAt}`
+    `custom:${COGNITO.customFields.expiresAt}`,
   );
 
   const userId = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.userId}`
+    `custom:${COGNITO.customFields.userId}`,
   ) as `user_${string}`;
 
   const expires = expiresAt ? Number(expiresAt) : 0;
@@ -66,13 +66,13 @@ export const getCredentials = async (
       user_id: userId,
       expires_in: expiresIn ? Number(expiresIn) : 0,
     },
-    oauth.credentials
+    oauth.credentials,
   );
 
   if (Date.now() > expires || code) {
     const { credentials, api } = await getInitialApi(oauth, client, code);
 
-    const userPoolId = getEnv("USER_POOL_ID");
+    const userPoolId = getEnv(ENV_VAR_NAMES.CognitoUserPoolId);
     const input: AdminUpdateUserAttributesCommandInput = {
       UserPoolId: userPoolId,
       Username: username,

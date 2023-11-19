@@ -16,8 +16,12 @@ export interface VerifyJwtResult {
   readonly groups: string[];
 }
 
-const getPublicKey = async (header: TokenHeader) => {
-  const keys = await getPublicKeys();
+const getPublicKey = async (
+  header: TokenHeader,
+  awsRegion: string,
+  awsPoolId: string,
+) => {
+  const keys = await getPublicKeys(awsRegion, awsPoolId);
   const key = keys[header.kid];
   if (key === undefined) {
     throw new Error("claim made for unknown kid");
@@ -29,22 +33,24 @@ interface VerifyConfig {
   token: string;
   authorisedGroups?: string[];
   authorisedUser?: string[];
+  readonly awsRegion: string;
+  readonly awsPoolId: string;
 }
 
 export const verifyJwtToken = async (
-  config: VerifyConfig
+  config: VerifyConfig,
 ): Promise<VerifyJwtResult> => {
   try {
-    const { token } = config;
+    const { token, awsRegion, awsPoolId } = config;
     const header = parseHeader(token);
-    const key = await getPublicKey(header);
+    const key = await getPublicKey(header, awsRegion, awsPoolId);
     const claim = await verify(token, key);
     console.log({ claim });
     const currentSeconds = Math.floor(new Date(Date.now()).valueOf() / 1000);
     if (currentSeconds > (claim.exp ?? 0)) {
       throw new Error("Token has expired");
     }
-    if (claim.iss !== getIssuer()) {
+    if (claim.iss !== getIssuer(awsRegion, awsPoolId)) {
       throw new Error("claim issuer is invalid");
     }
 
@@ -58,8 +64,8 @@ export const verifyJwtToken = async (
     };
 
     if (authorisedGroups && authorisedGroups.length > 0) {
-      const isValid = (claim["cognito:groups"] ?? []).some((group) =>
-        authorisedGroups?.includes(group)
+      const isValid = (claim["cognito:groups"] ?? []).some(
+        (group) => authorisedGroups?.includes(group),
       );
       return isValid
         ? { ...returnVal, isValid: true }

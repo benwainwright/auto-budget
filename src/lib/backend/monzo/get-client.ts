@@ -9,23 +9,27 @@ import { getAttributeValue } from "../../aws/get-attribute-value";
 import { getSecrets } from "../../aws/get-secret";
 import { getEnv } from "../../utils/get-env";
 import { getInitialApi } from "./get-initial-api";
-import { COGNITO } from "$lib/constants";
+import { COGNITO, ENV_VAR_NAMES } from "$lib/constants";
 
 export const getClient = async (
   username: string,
-  code?: string,
-  refresh?: boolean
+  code?: string | null,
+  refresh?: boolean,
 ) => {
-  const userPoolId = getEnv("USER_POOL_ID");
+  const userPoolId = getEnv(ENV_VAR_NAMES.CognitoUserPoolId);
 
-  const clientIdSecretName = getEnv("MONZO_CLIENT_ID_SECRET");
-  const clientSecretSecretName = getEnv("MONZO_CLIENT_SECRET_SECRET");
-  const redirectUriSecretName = getEnv("MONZO_REDIRECT_URI_SECRET");
+  const clientIdSecretName = getEnv(ENV_VAR_NAMES.MonzoClientIdSecretName);
+  const clientSecretSecretName = getEnv(
+    ENV_VAR_NAMES.MonzoClientSecretSecretName,
+  );
+  const redirectUriSecretName = getEnv(
+    ENV_VAR_NAMES.MonzoRedirectUriSecretName,
+  );
 
   const [clientId, clientSecret, redirectUri] = await getSecrets(
     clientIdSecretName,
     clientSecretSecretName,
-    redirectUriSecretName
+    redirectUriSecretName,
   );
 
   const oauth = new MonzoOAuthAPI({
@@ -42,34 +46,34 @@ export const getClient = async (
     new AdminGetUserCommand({
       UserPoolId: userPoolId,
       Username: username,
-    })
+    }),
   );
 
   const attributes = userResult.UserAttributes;
 
   const accessToken = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.accessToken}`
+    `custom:${COGNITO.customFields.accessToken}`,
   );
 
   const refreshToken = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.refreshToken}`
+    `custom:${COGNITO.customFields.refreshToken}`,
   );
 
   const expiresIn = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.expiresIn}`
+    `custom:${COGNITO.customFields.expiresIn}`,
   );
 
   const expiresAt = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.expiresAt}`
+    `custom:${COGNITO.customFields.expiresAt}`,
   );
 
   const userId = getAttributeValue(
     attributes,
-    `custom:${COGNITO.customFields.userId}`
+    `custom:${COGNITO.customFields.userId}`,
   ) as `user_${string}`;
 
   const expires = expiresAt ? Number(expiresAt) : 0;
@@ -83,7 +87,7 @@ export const getClient = async (
       user_id: userId,
       expires_in: expiresIn ? Number(expiresIn) : 0,
     },
-    oauth.credentials
+    oauth.credentials,
   );
 
   if (typeof expiresAt === "string" && Date.now() < expires) {
@@ -100,10 +104,10 @@ export const getClient = async (
       oauth,
       client,
       refreshToken,
-      code
+      code,
     );
 
-    const userPoolId = getEnv("USER_POOL_ID");
+    const userPoolId = getEnv(ENV_VAR_NAMES.CognitoUserPoolId);
     const input: AdminUpdateUserAttributesCommandInput = {
       UserPoolId: userPoolId,
       Username: username,

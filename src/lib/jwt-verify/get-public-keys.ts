@@ -22,12 +22,14 @@ interface MapOfKidToPublicKey {
 
 // eslint-disable-next-line fp/no-let
 let cacheKeys: MapOfKidToPublicKey | undefined;
-export const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
+export const getPublicKeys = async (
+  region: string,
+  poolId: string,
+): Promise<MapOfKidToPublicKey> => {
   if (!cacheKeys) {
-    const issuer = getIssuer();
+    const issuer = getIssuer(region, poolId);
     const url = `${issuer}/.well-known/jwks.json`;
     const publicKeys = await Axios.default.get<PublicKeys>(url);
-    console.log(`Getting public keys from ${url}`);
     // eslint-disable-next-line fp/no-mutation
     cacheKeys = publicKeys.data.keys.reduce<MapOfKidToPublicKey>(
       (agg: MapOfKidToPublicKey, current: PublicKey) => {
@@ -36,7 +38,7 @@ export const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
         agg[current.kid] = { instance: current, pem };
         return agg;
       },
-      {}
+      {},
     );
     return cacheKeys;
   } else {

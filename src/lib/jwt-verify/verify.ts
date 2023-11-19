@@ -1,22 +1,22 @@
-import * as jsonwebtoken from 'jsonwebtoken';
-import { Claim } from './claim';
-import { PublicKeyMeta } from './public-key-meta';
+import * as jsonwebtoken from "jsonwebtoken";
+import type { Claim } from "./claim";
+import type { PublicKeyMeta } from "./public-key-meta";
 
 export const verify = async (
   token: string,
-  key: PublicKeyMeta
+  key: PublicKeyMeta,
 ): Promise<Claim> => {
   return new Promise<Claim>((resolve, reject) => {
     jsonwebtoken.verify(token, key.pem, (error, data) => {
       if (error) {
         reject(error);
       } else {
-        if (typeof data === 'string') {
-          reject(new Error('verify did not return claim details'));
+        if (typeof data === "string") {
+          reject(new Error("verify did not return claim details"));
           return;
         }
         if (!data) {
-          reject(new Error('claim returned no data'));
+          reject(new Error("claim returned no data"));
           return;
         }
 

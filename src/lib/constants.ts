@@ -8,6 +8,20 @@ export const COGNITO = {
   },
 };
 
+export const ENV_VAR_NAMES = {
+  AwsRegion: "AWS_REGION",
+  CognitoUserPoolId: "COGNITO_USER_POOL_ID",
+  CongitoClientId: "COGNIT_CLIENT_ID",
+  MonzoClientSecretSecretName: "MONZO_CLIENT_SECRET_SECRET_NAME",
+  MonzoClientIdSecretName: "MONZO_CLIENT_ID_SECRET_NAME",
+  MonzoRedirectUriSecretName: "MONZO_REDIRECT_URI_SECRET_NAME",
+} as const;
+
+export type EnvironmentVariableName =
+  (typeof ENV_VAR_NAMES)[keyof typeof ENV_VAR_NAMES];
+
+export const TOKEN_COOKIE_NAME = "auto-budget-cognito-token";
+
 export const CONFIG_FILENAME = "config.json";
 
 export const ENVIRONMENT_NAMES = {

@@ -1,4 +1,6 @@
-export const getEnv = (name: string): string => {
+import type { ENV_VAR_NAMES, EnvironmentVariableName } from "$lib/constants";
+
+export const getEnv = (name: EnvironmentVariableName): string => {
   const value = process.env[name];
 
   if (!value) {

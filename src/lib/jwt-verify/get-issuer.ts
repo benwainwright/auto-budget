@@ -1,7 +1,2 @@
-export const getIssuer = (): string => {
-  const cognitoPoolId = process.env['USER_POOL_ID'] ?? '';
-  if (!cognitoPoolId) {
-    throw new Error('COGNITO_POOL_ID not configured');
-  }
-  return `https://cognito-idp.${process.env['AWS_REGION']}.amazonaws.com/${cognitoPoolId}`;
-};
+export const getIssuer = (region: string, poolId: string): string =>
+  `https://cognito-idp.${region}.amazonaws.com/${poolId}`;
