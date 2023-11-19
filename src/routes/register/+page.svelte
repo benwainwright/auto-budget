@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
+  import {
+    Button,
+    Form,
+    HiddenField,
+    InputField,
+    ParagraphText,
+    Section,
+  } from "$lib/components";
   import { onMount } from "svelte";
-  /** @type {import('./$types').ActionData} */
-  export let form;
+  import type { ActionData } from "./$types";
+  export let form: ActionData;
 
   onMount(() => {
     if (form?.state === "Success") {
@@ -12,37 +20,27 @@
   });
 </script>
 
-<h2>Register</h2>
-
-{#if form?.state === "Success"}
-  <p>Registration successful! Redirecting to login page...</p>
-{:else if form?.state === "VerifyCode"}
-  <form method="POST" action="/register?/verify">
-    <input type="hidden" name="username" value={form.username} />
-    <div>
-      <label for="code">Code</label>
-      <input type="text" name="code" />
-    </div>
-    <button type="submit">Submit</button>
-  </form>
-{:else}
-  <form method="POST" action="/register?/start">
-    <div>
-      <label for="username">Username</label>
-      <input type="text" name="username" />
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input type="email" name="email" />
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" />
-    </div>
-    <div>
-      <label for="verifyPassword">Verify Password</label>
-      <input type="password" name="verifyPassword" />
-    </div>
-    <button type="submit">Submit</button>
-  </form>
-{/if}
+<Section heading="Register">
+  {#if form?.state === "Success"}
+    <ParagraphText
+      >Registration successful! Redirecting to login page...</ParagraphText
+    >
+  {:else if form?.state === "VerifyCode"}
+    <Form action="/register?/verify">
+      <HiddenField name="username" value={form.username ?? ""} />
+      <InputField name="code" label="Code" />
+      <Button type="submit">Submit</Button>
+    </Form>
+  {:else}
+    <Form action="/register?/start">
+      <InputField name="username" label="Username" />
+      <InputField name="email" label="Email" type="email" />
+      <InputField name="password" label="Password" type="password" />
+      <InputField
+        name="verifyPassword"
+        label="Verify Password"
+        type="password"
+      />
+    </Form>
+  {/if}
+</Section>

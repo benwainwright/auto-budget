@@ -23,7 +23,7 @@ export const AutoBudgetStack = ({ stack, app }: StackContext) => {
     },
   );
 
-  const paymentsTable = new Table(stack, "Payments", {
+  const paymentsTable = new Table(stack, "payments", {
     fields: {
       id: "string",
       username: "string",
@@ -34,7 +34,7 @@ export const AutoBudgetStack = ({ stack, app }: StackContext) => {
       end: "string",
       isSavingsTarget: "string",
     },
-    primaryIndex: { partitionKey: "id", sortKey: "username" },
+    primaryIndex: { partitionKey: "username", sortKey: "id" },
   });
 
   const cognito = new Cognito(stack, "auto-budget-auth", {

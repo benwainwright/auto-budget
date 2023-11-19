@@ -1,4 +1,5 @@
 <script>
+  import { Form, InputField, ParagraphText, Section } from "$lib/components";
   import { onMount } from "svelte";
   /** @type {import('./$types').ActionData} */
   export let form;
@@ -12,22 +13,18 @@
   });
 </script>
 
-<h2>Login</h2>
-
-{#if form?.state === "Success"}
-  <p>Registration successful! Redirecting to home page...</p>
-{:else}
-  <p>Already have an account? <a href="/register">Register</a></p>
-
-  <form method="POST">
-    <div>
-      <label for="username">Username</label>
-      <input type="text" name="username" />
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" />
-    </div>
-    <button type="submit">Submit</button>
-  </form>
-{/if}
+<Section heading="Login">
+  {#if form?.state === "Success"}
+    <ParagraphText
+      >Registration successful! Redirecting to home page...</ParagraphText
+    >
+  {:else}
+    <ParagraphText
+      >Already have an account? <a href="/register">Register</a></ParagraphText
+    >
+    <Form>
+      <InputField name="username" label="Username" />
+      <InputField name="password" label="Password" type="password" />
+    </Form>
+  {/if}
+</Section>

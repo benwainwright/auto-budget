@@ -3,8 +3,8 @@ export interface Payment {
   username: string;
   name: string;
   when: string;
-  potId: string;
+  potId?: string;
   amount: string;
-  end: string;
-  isSavingsTarget: boolean;
+  end?: string;
+  isSavingsTarget?: boolean;
 }

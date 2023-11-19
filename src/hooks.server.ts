@@ -24,6 +24,9 @@ export const handle: Handle = async ({ event, resolve }) => {
         },
       });
     }
+
+    event.locals.monzoClient = result.client;
+    event.locals.loggedIn = true;
   } catch (error) {
     if (error instanceof HttpError) {
       return new Response("Redirecting to login page", {
@@ -35,6 +38,5 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
     throw error;
   }
-  event.locals.loggedIn = true;
   return await resolve(event);
 };
