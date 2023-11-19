@@ -9,6 +9,7 @@ export const COGNITO = {
 };
 
 export const ENV_VAR_NAMES = {
+  PaymentsTableName: "PAYMENTS_TABLE_NAME",
   AwsRegion: "AWS_REGION",
   CognitoUserPoolId: "COGNITO_USER_POOL_ID",
   CongitoClientId: "COGNIT_CLIENT_ID",

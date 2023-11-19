@@ -1,4 +1,4 @@
-import { type StackContext, Cognito } from "sst/constructs";
+import { type StackContext, Cognito, Table } from "sst/constructs";
 import { SvelteKitSite } from "sst/constructs";
 import bucketDeployment from "aws-cdk-lib/aws-s3-deployment";
 import type { AppConfig } from "../app-config";
@@ -22,6 +22,20 @@ export const AutoBudgetStack = ({ stack, app }: StackContext) => {
       secretName: "auto-budget/monzo-redirect-url",
     },
   );
+
+  const paymentsTable = new Table(stack, "Payments", {
+    fields: {
+      id: "string",
+      username: "string",
+      name: "string",
+      when: "string",
+      potId: "string",
+      amount: "string",
+      end: "string",
+      isSavingsTarget: "string",
+    },
+    primaryIndex: { partitionKey: "id", sortKey: "username" },
+  });
 
   const cognito = new Cognito(stack, "auto-budget-auth", {
     cdk: {
@@ -51,6 +65,7 @@ export const AutoBudgetStack = ({ stack, app }: StackContext) => {
   const site = new SvelteKitSite(stack, "auto-budget-site", {
     path: "./",
     environment: {
+      [ENV_VAR_NAMES.PaymentsTableName]: paymentsTable.tableName,
       [ENV_VAR_NAMES.CognitoUserPoolId]: cognito.cdk.userPool.userPoolId,
 
       [ENV_VAR_NAMES.CongitoClientId]:
