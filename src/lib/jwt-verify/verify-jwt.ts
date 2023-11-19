@@ -45,7 +45,6 @@ export const verifyJwtToken = async (
     const header = parseHeader(token);
     const key = await getPublicKey(header, awsRegion, awsPoolId);
     const claim = await verify(token, key);
-    console.log({ claim });
     const currentSeconds = Math.floor(new Date(Date.now()).valueOf() / 1000);
     if (currentSeconds > (claim.exp ?? 0)) {
       throw new Error("Token has expired");

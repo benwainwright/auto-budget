@@ -5,7 +5,7 @@ const getInitialClient = async (
   oauth: MonzoOAuthAPI,
   client: MonzoAPI,
   refreshToken?: string,
-  code?: string
+  code?: string | null,
 ) => {
   try {
     return code && !refreshToken
@@ -25,7 +25,7 @@ export const getInitialApi = async (
   oauth: MonzoOAuthAPI,
   client: MonzoAPI,
   refreshToken?: string,
-  code?: string
+  code?: string,
 ) => {
   const api = await getInitialClient(oauth, client, refreshToken, code);
   try {

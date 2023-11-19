@@ -13,7 +13,7 @@ import { COGNITO, ENV_VAR_NAMES } from "$lib/constants";
 
 export const getClient = async (
   username: string,
-  code?: string | null,
+  code?: string,
   refresh?: boolean,
 ) => {
   const userPoolId = getEnv(ENV_VAR_NAMES.CognitoUserPoolId);

@@ -12,8 +12,8 @@ export const handle: Handle = async ({ event, resolve }) => {
     return await resolve(event);
   }
   try {
-    const authToken = event.cookies.get(TOKEN_COOKIE_NAME);
-    const code = event.url.searchParams.get("code");
+    const authToken = event.cookies.get(TOKEN_COOKIE_NAME) ?? undefined;
+    const code = event.url.searchParams.get("code") ?? undefined;
     const result = await authorise(authToken, code);
 
     if (!result.complete) {
@@ -25,7 +25,6 @@ export const handle: Handle = async ({ event, resolve }) => {
       });
     }
   } catch (error) {
-    console.log(error);
     if (error instanceof HttpError) {
       return new Response("Redirecting to login page", {
         status: HTTP.statusCodes.Found,
@@ -36,5 +35,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
     throw error;
   }
+  event.locals.loggedIn = true;
   return await resolve(event);
 };

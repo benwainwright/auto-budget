@@ -48,6 +48,7 @@ export const HTTP = {
     XAmxDate: "X-Amz-Date",
     Authorization: "Authorization",
     XApiKey: "X-Api-Key",
+    XIsLoggedIn: "X-Is-Logged-In",
   },
   statusCodes: {
     BadRequest: 400,

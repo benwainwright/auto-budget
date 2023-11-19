@@ -17,8 +17,8 @@ type AuthResponse =
     };
 
 export const authorise = async (
-  token?: string | null,
-  code?: string | null,
+  token?: string,
+  code?: string,
   refresh?: boolean,
 ): Promise<AuthResponse> => {
   if (!token) {
