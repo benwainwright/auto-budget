@@ -11,13 +11,13 @@
 
 <style>
   button {
-    padding: 0.8rem 1.8rem;
+    padding: 1.3rem 2.8rem;
     font-weight: bold;
     font-size: 1.2rem;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-text-secondary);
     background-color: white;
-  }
+}
 
   button.primary {
     color: white;

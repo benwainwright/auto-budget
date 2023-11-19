@@ -32,7 +32,7 @@
     font-weight: bold;
     font-size: 1.5rem;
     display: flex;
-    padding: 1rem;
+    padding: 4rem;
   }
   .brand {
     flex-grow: 2;

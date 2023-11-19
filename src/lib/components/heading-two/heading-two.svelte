@@ -2,7 +2,7 @@
 
 <style>
   h2 {
-    margin-top: 1rem;
+    margin-top: 3rem;
     margin-bottom: 3rem;
     font-size: 4rem;
     line-height: 4rem;

@@ -13,7 +13,7 @@
 
 <style>
   .field {
-    padding: 0.8rem;
+    padding: 1.3rem;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-text-secondary);
   }

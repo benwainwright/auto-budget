@@ -4,3 +4,9 @@
 
 <a class="button" {href}><slot /></a>
 
+<style>
+  a {
+    font-weight: normal;
+    color: #4a4949;
+  }
+</style>
