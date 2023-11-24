@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "2.0.0",
@@ -28,6 +31,8 @@
     "@aws-sdk/client-cognito-identity-provider": "3.454.0",
     "@aws-sdk/client-secrets-manager": "3.454.0",
     "@otters/monzo": "1.0.1",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@testing-library/svelte": "4.0.4",
     "@types/aws-lambda": "8.10.126",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/jwk-to-pem": "2.0.3",
@@ -39,9 +44,13 @@
     "constructs": "10.2.69",
     "jest-mock": "29.7.0",
     "jest-mock-extended": "3.0.5",
+    "jsdom": "^22.1.0",
     "jsonwebtoken": "9.0.2",
     "jwk-to-pem": "2.0.5",
     "prettier": "3.1.0",
-    "prettier-plugin-svelte": "3.1.0"
+    "prettier-plugin-svelte": "3.1.0",
+    "svelte-htm": "^1.2.0",
+    "vitest": "0.34.6",
+    "vitest-dom": "^0.1.1"
   }
 }

@@ -5,6 +5,7 @@
     "checkJs": true,
     "lib": ["DOM", "ESNext"],
     "esModuleInterop": true,
+    "types": ["vitest/globals"],
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
