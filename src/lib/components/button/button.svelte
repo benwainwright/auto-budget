@@ -17,7 +17,7 @@
     border-radius: var(--border-radius);
     border: 1px solid var(--color-text-secondary);
     background-color: white;
-}
+  }
 
   button.primary {
     color: white;

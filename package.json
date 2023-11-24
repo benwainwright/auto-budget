@@ -11,7 +11,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest run",
     "test:ui": "vitest --ui",
-    "test:watch": "vitest"
+    "test:watch": "vitest --watch"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "2.0.0",
@@ -33,6 +33,7 @@
     "@otters/monzo": "1.0.1",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@testing-library/svelte": "4.0.4",
+    "@testing-library/user-event": "^14.5.1",
     "@types/aws-lambda": "8.10.126",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/jwk-to-pem": "2.0.3",
