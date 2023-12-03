@@ -1,4 +1,4 @@
-import * as Axios from "axios";
+import Axios from "axios";
 import jwkToPem from "jwk-to-pem";
 import { getIssuer } from "./get-issuer";
 import type { PublicKeyMeta } from "./public-key-meta";
@@ -29,9 +29,10 @@ export const getPublicKeys = async (
   if (!cacheKeys) {
     const issuer = getIssuer(region, poolId);
     const url = `${issuer}/.well-known/jwks.json`;
-    const publicKeys = await Axios.default.get<PublicKeys>(url);
+    const response = await fetch(url);
+    const publicKeys = (await response.json()) as PublicKeys;
     // eslint-disable-next-line fp/no-mutation
-    cacheKeys = publicKeys.data.keys.reduce<MapOfKidToPublicKey>(
+    cacheKeys = publicKeys.keys.reduce<MapOfKidToPublicKey>(
       (agg: MapOfKidToPublicKey, current: PublicKey) => {
         const pem = jwkToPem(current);
         // eslint-disable-next-line fp/no-mutation

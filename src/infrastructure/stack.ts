@@ -1,7 +1,7 @@
 import { type StackContext, Cognito, Table } from "sst/constructs";
 import { SvelteKitSite } from "sst/constructs";
 import bucketDeployment from "aws-cdk-lib/aws-s3-deployment";
-import type { AppConfig } from "../app-config";
+import type { AppConfig } from "../types/app-config";
 import { COGNITO, CONFIG_FILENAME, ENV_VAR_NAMES } from "$lib/constants";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { StringAttribute } from "aws-cdk-lib/aws-cognito";

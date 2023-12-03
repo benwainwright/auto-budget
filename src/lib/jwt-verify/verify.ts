@@ -1,4 +1,4 @@
-import * as jsonwebtoken from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 import type { Claim } from "./claim";
 import type { PublicKeyMeta } from "./public-key-meta";
 

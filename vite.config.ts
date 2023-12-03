@@ -12,6 +12,13 @@ export default defineConfig({
     environment: "jsdom",
     coverage: {
       all: true,
+      exclude: [
+        "src/test-support/**",
+        "src/infrastructure/**",
+        "src/types/**",
+        "src/app.d.ts",
+        "src/sst-env.d.ts",
+      ],
       100: true,
       include: ["src/**/*.ts"],
     },
