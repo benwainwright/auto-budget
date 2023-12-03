@@ -45,6 +45,7 @@ export const HTTP = {
     AccessControlAllowCredentials: "access-control-allow-credentials",
     AccessControlAllowHeaders: "access-control-allow-headers",
     Origin: "origin",
+    Location: "location",
     ContentType: "Content-Type",
     XAmxDate: "X-Amz-Date",
     Authorization: "Authorization",

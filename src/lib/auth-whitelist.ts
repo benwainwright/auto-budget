@@ -1,1 +1,1 @@
-export const authWhitelist = ["/login", "/register"];
+export const getAuthwhitelist = () => ["/login", "/register"];

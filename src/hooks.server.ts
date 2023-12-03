@@ -1,4 +1,4 @@
-import { authWhitelist } from "$lib/auth-whitelist";
+import { getAuthwhitelist } from "$lib/auth-whitelist";
 import { configureAmplify } from "$lib/aws/configure-amplify-server";
 import { authorise } from "$lib/backend/monzo/authorise";
 import { HTTP, TOKEN_COOKIE_NAME } from "$lib/constants";
@@ -6,11 +6,12 @@ import { HttpError } from "$lib/errors/http-error";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-  configureAmplify();
-
-  if (authWhitelist.includes(event.route.id ?? "")) {
+  if (getAuthwhitelist().includes(event.route.id ?? "")) {
     return await resolve(event);
   }
+
+  configureAmplify();
+
   try {
     const authToken = event.cookies.get(TOKEN_COOKIE_NAME) ?? undefined;
     const code = event.url.searchParams.get("code") ?? undefined;
@@ -20,7 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return new Response("Redirecting to Monzo", {
         status: HTTP.statusCodes.Found,
         headers: {
-          Location: result.response.redirectUrl,
+          [HTTP.headerNames.Location]: result.response.redirectUrl,
         },
       });
     }
